@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="button">50dp</dimen>
     <dimen name="padding">20dp</dimen>
     <dimen name="placeholder">25dp</dimen>
+    <dimen name="edit_text_height">20dp</dimen>
+    <dimen name="edit_text_radius">25dp</dimen>
+    <dimen name="edit_text_stroke">0.5dp</dimen>
+    <dimen name="edit_text_width">100dp</dimen>
+    <dimen name="separator">10dp</dimen>
 </resources>

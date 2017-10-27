@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#FDFDFD</color>
-    <color name="text">#595959</color>
+    <color name="border">#DCDCDC</color>
+    <color name="buttonPrimary">#33CCCC</color>
     <color name="placeholder">#A5A5A5</color>
+    <color name="text">#595959</color>
+    <color name="text_background">#F2F2F2</color>
 </resources>
