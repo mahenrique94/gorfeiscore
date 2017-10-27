@@ -14,13 +14,10 @@ import butterknife.ButterKnife
 /**
  * Created by matheus on 26/10/17.
  */
-class ListaPlayerAdapter(context : Context, players : List<Player>) : BaseAdapter() {
+class ListaPlayerAdapter(val context : Context, val players : MutableList<Player>) : BaseAdapter() {
 
     @BindView(R.id.tvListaPlayerAdapter_name)
     lateinit var tvListaPlayerAdapter_name : TextView
-
-    private val players = players
-    private val context = context
 
     override fun getCount(): Int {
         return this.players.size

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        adapter = ListaPlayerAdapter(this, this.players!!.toList())
+        adapter = ListaPlayerAdapter(this, this.players!!)
     }
 
     @OnClick(R.id.btnMain_addPlayer)
