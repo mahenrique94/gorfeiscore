@@ -1,7 +1,6 @@
 package br.com.matheuscastiglioni.gorfeiscore.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import br.com.matheuscastiglioni.gorfeiscore.R
+import br.com.matheuscastiglioni.gorfeiscore.helper.DialogHelper
 import br.com.matheuscastiglioni.gorfeiscore.model.Player
 import br.com.matheuscastiglioni.gorfeiscore.type.ColorType
 import butterknife.BindView
@@ -30,6 +30,8 @@ class PlayerAdapter(val context : Context, val players : MutableList<Player>) : 
     lateinit var btnPlayerAdapter_removeScore : Button
     @BindView(R.id.btnPlayerAdapter_addScore)
     lateinit var btnPlayerAdapter_addScore : Button
+    @BindView(R.id.btnPlayerAdapter_removePlayer)
+    lateinit var btnPlayerAdapter_removePlayer : Button
 
     private val POSITION_FIRST = 1
 
@@ -61,18 +63,17 @@ class PlayerAdapter(val context : Context, val players : MutableList<Player>) : 
 
         this.tvPlayerAdapter_name.setText(player.name)
         updateScore(player.score)
-
-        this.btnPlayerAdapter_removeScore.setOnClickListener(View.OnClickListener {
+        this.btnPlayerAdapter_removeScore.setOnClickListener {
             player.removeScore()
-            players.sortBy { player -> player.score }
             notifyDataSetChanged()
-        })
+        }
 
-        this.btnPlayerAdapter_addScore.setOnClickListener(View.OnClickListener {
+        this.btnPlayerAdapter_addScore.setOnClickListener {
             player.addScore()
-            players.sortBy { player -> player.score }
             notifyDataSetChanged()
-        })
+        }
+
+        this.btnPlayerAdapter_removePlayer.setOnClickListener { DialogHelper.confirmRemovePlayer(context, players, player) }
 
         return novaView!!
     }

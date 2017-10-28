@@ -2,6 +2,7 @@ package br.com.matheuscastiglioni.gorfeiscore
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +23,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var etMain_playerName : EditText
     @BindView(R.id.lvMain_lista)
     lateinit var lvMain_lista : ListView
+    @BindView(R.id.srMain_refresh)
+    lateinit var srMain_refresh : SwipeRefreshLayout
+
+    private val LIST_LIMIT = 8
 
     private val players : MutableList<Player>? = ArrayList<Player>()
     private lateinit var adapter: PlayerAdapter
@@ -32,16 +37,26 @@ class MainActivity : AppCompatActivity() {
         ButterKnife.bind(this)
 
         adapter = PlayerAdapter(this, this.players!!)
+
+        srMain_refresh.setOnRefreshListener { updateList() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        adapter.notifyDataSetChanged()
     }
 
     @OnClick(R.id.btnMain_addPlayer)
     fun addPlayer(btnMain_addPlayer : Button) {
         if (PlayerValidator.validatingName(this.etMain_playerName)) {
-            this.players?.add(Player(this.etMain_playerName.text.toString()))
-            updateView()
-            updateList()
-        } else {
+            if (listHasLimit()) {
 
+            } else {
+                this.players?.add(Player(this.etMain_playerName.text.toString()))
+                updateView()
+                updateList()
+            }
         }
     }
 
@@ -49,12 +64,18 @@ class MainActivity : AppCompatActivity() {
         return name.text.toString().length > 0
     }
 
+    private fun listHasLimit() : Boolean {
+        return this.players!!.size == LIST_LIMIT
+    }
+
     private fun listHasPlayer() : Boolean {
         return this.players!!.size > 0
     }
 
     private fun updateList() {
+        this.players!!.sortBy { player -> player.score }
         this.lvMain_lista.adapter = adapter
+        this.srMain_refresh.isRefreshing = false
     }
 
     private fun updateView() {

@@ -20,10 +20,18 @@
         android:textSize="@dimen/placeholder"
         android:layout_width="match_parent"/>
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_height="match_parent"
-        android:id="@+id/lvMain_lista"
-        android:layout_width="match_parent"></ListView>
+        android:id="@+id/srMain_refresh"
+        android:layout_width="match_parent">
+
+        <ListView
+            android:layout_height="match_parent"
+            android:id="@+id/lvMain_lista"
+            android:layout_width="match_parent"></ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:layout_alignParentBottom="true"
