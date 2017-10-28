@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="fill_parent">
+
+    <LinearLayout
+        android:background="@drawable/background_item"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/separator"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:paddingTop="@dimen/separator"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlayerAdapter_position"
+            android:text="1"
+            android:textColor="@color/position"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlayerAdapter_name"
+            android:text="@string/player_name"
+            android:textColor="@color/text"
+            android:textSize="20dp"
+            android:layout_weight="7"
+            android:layout_width="0dp"/>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_width="0dp">
+
+            <Button
+                android:background="@drawable/button_error"
+                android:elevation="10dp"
+                android:gravity="center"
+                android:layout_height="30dp"
+                android:id="@+id/btnPlayerAdapter_removeScore"
+                android:layout_marginRight="5dp"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="20dp"
+                android:layout_width="30dp"/>
+
+            <EditText
+                android:background="@drawable/edit_text_round"
+                android:focusable="false"
+                android:layout_height="match_parent"
+                android:id="@+id/etPlayerAdapter_score"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/placeholder"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+
+            <Button
+                android:background="@drawable/button_success"
+                android:elevation="10dp"
+                android:gravity="center"
+                android:layout_height="30dp"
+                android:id="@+id/btnPlayerAdapter_addScore"
+                android:layout_marginLeft="5dp"
+                android:text="+"
+                android:textColor="@color/background"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:layout_width="30dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

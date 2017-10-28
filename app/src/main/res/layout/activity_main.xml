@@ -7,7 +7,6 @@
     android:focusableInTouchMode="true"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padding"
     android:layout_width="match_parent"
     tools:context="br.com.matheuscastiglioni.gorfeiscore.MainActivity">
 
@@ -30,6 +29,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
         android:layout_width="fill_parent">
 
         <EditText
@@ -50,7 +50,7 @@
             android:layout_width="fill_parent"/>
 
         <Button
-            android:background="@drawable/round_button"
+            android:background="@drawable/button_success"
             android:drawableTop="@drawable/ic_add_player"
             android:elevation="10dp"
             android:gravity="center"

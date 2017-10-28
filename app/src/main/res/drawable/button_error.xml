@@ -7,6 +7,6 @@
         android:width="@dimen/button"></size>
 
     <solid
-        android:color="@color/buttonPrimary"></solid>
+        android:color="@color/buttonError"></solid>
 
 </shape>
