@@ -1,6 +1,11 @@
 <resources>
-    <string name="insert_playerName">Digite o nome do jogador</string>
     <string name="app_name">GorfeiScore</string>
+    <string name="button_update">Atualizar</string>
+    <string name="info_player">Jogador</string>
+    <string name="info_playerName">Nome</string>
+    <string name="info_playerPosition">Posição</string>
+    <string name="info_playerScore">Pontuação</string>
+    <string name="insert_playerName">Digite o nome do jogador</string>
     <string name="no_player">Nenhum jogador adicionado</string>
     <string name="player_name">Nome do Jogador</string>
 </resources>

@@ -1,13 +1,18 @@
 package br.com.matheuscastiglioni.gorfeiscore
 
+import android.content.Context
+import android.inputmethodservice.InputMethodService
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import br.com.matheuscastiglioni.gorfeiscore.adapter.PlayerAdapter
+import br.com.matheuscastiglioni.gorfeiscore.helper.StringHelper
+import br.com.matheuscastiglioni.gorfeiscore.helper.ViewHelper
 import br.com.matheuscastiglioni.gorfeiscore.model.Player
 import br.com.matheuscastiglioni.gorfeiscore.validator.PlayerValidator
 import butterknife.BindView
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        adapter = PlayerAdapter(this, this.players!!)
+        adapter = PlayerAdapter(this@MainActivity, this, this.players!!)
 
         srMain_refresh.setOnRefreshListener { updateList() }
     }
@@ -49,15 +54,17 @@ class MainActivity : AppCompatActivity() {
 
     @OnClick(R.id.btnMain_addPlayer)
     fun addPlayer(btnMain_addPlayer : Button) {
-        if (PlayerValidator.validatingName(this.etMain_playerName)) {
-            if (listHasLimit()) {
-
-            } else {
-                this.players?.add(Player(this.etMain_playerName.text.toString()))
-                updateView()
+        if (listHasLimit()) {
+            Toast.makeText(this, "Limite máximo de jogadores atingido", Toast.LENGTH_LONG).show()
+        } else {
+            if (PlayerValidator.validatingName(this.etMain_playerName)) {
+                this.players?.add(Player(StringHelper.capitalizeEveryWord(this.etMain_playerName.text.toString())))
                 updateList()
+                this.etMain_playerName.clearFocus()
             }
         }
+
+        ViewHelper.hideKeyboard(this@MainActivity)
     }
 
     private fun hasName(name : EditText) : Boolean {
@@ -76,15 +83,7 @@ class MainActivity : AppCompatActivity() {
         this.players!!.sortBy { player -> player.score }
         this.lvMain_lista.adapter = adapter
         this.srMain_refresh.isRefreshing = false
-    }
-
-    private fun updateView() {
-        if (listHasPlayer())
-            this.tvMain_placeholder.visibility = View.INVISIBLE
-        else
-            this.tvMain_placeholder.visibility = View.VISIBLE
-
-        this.etMain_playerName.setText(null)
+        ViewHelper.updateMain(this@MainActivity, this.players)
     }
 
 }

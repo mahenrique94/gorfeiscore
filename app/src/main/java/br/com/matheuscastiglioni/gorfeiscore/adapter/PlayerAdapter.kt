@@ -4,21 +4,21 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
+import br.com.matheuscastiglioni.gorfeiscore.MainActivity
 import br.com.matheuscastiglioni.gorfeiscore.R
 import br.com.matheuscastiglioni.gorfeiscore.helper.DialogHelper
+import br.com.matheuscastiglioni.gorfeiscore.helper.ViewHelper
 import br.com.matheuscastiglioni.gorfeiscore.model.Player
 import br.com.matheuscastiglioni.gorfeiscore.type.ColorType
+import br.com.matheuscastiglioni.gorfeiscore.validator.PlayerValidator
 import butterknife.BindView
 import butterknife.ButterKnife
 
 /**
  * Created by matheus on 26/10/17.
  */
-class PlayerAdapter(val context : Context, val players : MutableList<Player>) : BaseAdapter() {
+class PlayerAdapter(val activity : MainActivity, val context : Context, val players : MutableList<Player>) : BaseAdapter() {
 
     @BindView(R.id.tvPlayerAdapter_name)
     lateinit var tvPlayerAdapter_name : TextView
@@ -52,28 +52,47 @@ class PlayerAdapter(val context : Context, val players : MutableList<Player>) : 
         val inflater = LayoutInflater.from(this.context)
         var novaView = view
 
+
         if (view == null)
             novaView = inflater.inflate(R.layout.player_adpter, viewGroup, false)
 
         ButterKnife.bind(this, novaView!!)
 
         val position = (index + 1)
-        this.tvPlayerAdapter_position.setText(position.toString())
-        checkColorIndex(position)
+        player.position = position
+        this.tvPlayerAdapter_position.setText(player.position.toString())
+        checkColorIndex(player.position)
 
         this.tvPlayerAdapter_name.setText(player.name)
-        updateScore(player.score)
+
+        val score : EditText = novaView.findViewById(R.id.etPlayerAdapter_score)
         this.btnPlayerAdapter_removeScore.setOnClickListener {
-            player.removeScore()
-            notifyDataSetChanged()
+            if (PlayerValidator.validatingScore(score)) {
+                player.removeScore(score.text.toString().toInt())
+                clearScore(score)
+                notifyDataSetChanged()
+                ViewHelper.hideKeyboard(this.activity)
+                Toast.makeText(this.context, "Pontos removidos com sucesso", Toast.LENGTH_SHORT).show()
+                score.clearFocus()
+            }
         }
 
         this.btnPlayerAdapter_addScore.setOnClickListener {
-            player.addScore()
-            notifyDataSetChanged()
+            if (PlayerValidator.validatingScore(score)) {
+                player.addScore(score.text.toString().toInt())
+                clearScore(score)
+                notifyDataSetChanged()
+                ViewHelper.hideKeyboard(this.activity)
+                Toast.makeText(this.context, "Pontos adicionados com sucesso", Toast.LENGTH_SHORT).show()
+                score.clearFocus()
+            }
         }
 
-        this.btnPlayerAdapter_removePlayer.setOnClickListener { DialogHelper.confirmRemovePlayer(context, players, player) }
+        this.btnPlayerAdapter_removePlayer.setOnClickListener {
+            DialogHelper.confirmRemovePlayer(this.activity, this.context, this.players, player, this@PlayerAdapter)
+        }
+
+        this.tvPlayerAdapter_name.setOnClickListener { DialogHelper.infoPlayer(this.context, player, this@PlayerAdapter, this.activity) }
 
         return novaView!!
     }
@@ -94,8 +113,8 @@ class PlayerAdapter(val context : Context, val players : MutableList<Player>) : 
         return position == this.players.size;
     }
 
-    fun updateScore(score : Int) {
-        this.etPlayerAdapter_score.setText(score.toString())
+    private fun clearScore(score : EditText) {
+        score.setText(null)
     }
 
 }

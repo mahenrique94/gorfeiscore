@@ -3,6 +3,12 @@ package br.com.matheuscastiglioni.gorfeiscore.helper
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
+import android.widget.Button
+import android.widget.EditText
+import br.com.matheuscastiglioni.gorfeiscore.MainActivity
+import br.com.matheuscastiglioni.gorfeiscore.R
+import br.com.matheuscastiglioni.gorfeiscore.adapter.PlayerAdapter
 import br.com.matheuscastiglioni.gorfeiscore.model.Player
 import br.com.matheuscastiglioni.gorfeiscore.type.ColorType
 
@@ -12,18 +18,67 @@ import br.com.matheuscastiglioni.gorfeiscore.type.ColorType
 abstract class DialogHelper {
 
     companion object {
-        fun confirmRemovePlayer(context: Context, players: MutableList<Player>, player: Player) {
+        fun confirmRemovePlayer(activity: MainActivity, context: Context, players: MutableList<Player>, player: Player, adapter: PlayerAdapter) {
             val builder = AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
-            builder.setTitle("Remover jogador")
+            builder.setTitle("Confirmar exclusão")
             builder.setMessage("Deseja remover o jogador ${player.name} ?")
             builder.setNegativeButton("Não") { dialogInterface, i ->  println("Não quero remover") }
-            builder.setPositiveButton("Sim") { dialogInterface, i -> players.remove(player) }
+            builder.setPositiveButton("Sim") { dialogInterface, i ->
+                players.remove(player)
+                adapter.notifyDataSetChanged()
+                ViewHelper.updateMain(activity, players)
+            }
 
             val alert = builder.create()
             alert.show()
 
             alert.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ColorType.ERROR.get())
             alert.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ColorType.SUCCESS.get())
+        }
+
+        fun infoPlayer(context: Context, player: Player, adapter : PlayerAdapter, activity: MainActivity) {
+            val builder = AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setView(R.layout.player_info)
+            }
+            val alert = builder.create()
+            alert.show()
+            configureAlert(alert, player, adapter, activity)
+        }
+
+        private fun configureAlert(alert: AlertDialog, player: Player, adapter: PlayerAdapter, activity: MainActivity) {
+            setPosition(alert, player)
+            setName(alert, player)
+            setScore(alert, player)
+
+            setUpdateAction(alert, player, adapter, activity)
+        }
+
+        private fun setName(alert: AlertDialog, player: Player) {
+            val etPlayerInfo_name : EditText = alert.findViewById(R.id.etPlayerInfo_name)
+            etPlayerInfo_name.setText(player.name.trim())
+        }
+
+        private fun setPosition(alert: AlertDialog, player: Player) {
+            val etPlayerInfo_position : EditText = alert.findViewById(R.id.etPlayerInfo_position)
+            etPlayerInfo_position.setText(player.position.toString())
+        }
+
+        private fun setScore(alert: AlertDialog, player: Player) {
+            val etPlayerInfo_score : EditText = alert.findViewById(R.id.etPlayerInfo_score)
+            etPlayerInfo_score.setText(player.score.toString())
+        }
+
+        private fun setUpdateAction(alert: AlertDialog, player: Player, adapter: PlayerAdapter, activity: MainActivity) {
+            val btnPlayerInfo_update : Button = alert.findViewById(R.id.btnPlayerInfo_update)
+            btnPlayerInfo_update.setOnClickListener {
+                val etPlayerInfo_name : EditText = alert.findViewById(R.id.etPlayerInfo_name)
+                player.name = StringHelper.capitalizeEveryWord(etPlayerInfo_name.text.toString())
+                adapter.notifyDataSetChanged()
+                alert.hide()
+
+                ViewHelper.hideKeyboard(activity)
+            }
         }
     }
 

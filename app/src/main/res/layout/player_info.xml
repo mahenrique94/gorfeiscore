@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding"
+    android:layout_width="match_parent">
+
+    <TextView
+        android:background="@drawable/background_item"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPlayerInfo_title"
+        android:layout_marginBottom="@dimen/padding"
+        android:paddingBottom="@dimen/separator"
+        android:text="@string/info_player"
+        android:textAlignment="center"
+        android:textColor="@color/text"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"/>
+
+    <LinearLayout
+        android:gravity="left|center"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/separator"
+        android:orientation="horizontal"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlayerInfo_position"
+            android:text="@string/info_playerPosition"
+            android:textColor="@color/text"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="100dp"/>
+
+        <EditText
+            android:background="@drawable/edit_text_round"
+            android:digits="012345678"
+            android:focusable="false"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPlayerInfo_position"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/text"
+            android:paddingBottom="@dimen/separator"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/separator"
+            android:layout_width="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="left|center"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/separator"
+        android:orientation="horizontal"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlayerInfo_name"
+            android:text="@string/info_playerName"
+            android:textColor="@color/text"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="100dp"/>
+
+        <EditText
+            android:background="@drawable/edit_text_round"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPlayerInfo_name"
+            android:inputType="text"
+            android:text="Nome do jogador"
+            android:textColor="@color/text"
+            android:paddingBottom="@dimen/separator"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/separator"
+            android:layout_width="fill_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="left|center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlayerInfo_score"
+            android:text="@string/info_playerScore"
+            android:textColor="@color/text"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="100dp"/>
+
+        <EditText
+            android:background="@drawable/edit_text_round"
+            android:digits="0123456789"
+            android:focusable="false"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPlayerInfo_score"
+            android:inputType="number"
+            android:text="100"
+            android:textColor="@color/text"
+            android:paddingBottom="@dimen/separator"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:paddingTop="@dimen/separator"
+            android:layout_width="wrap_content"/>
+
+    </LinearLayout>
+
+    <Button
+        android:background="@drawable/button_update"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnPlayerInfo_update"
+        android:layout_marginTop="@dimen/padding"
+        android:text="@string/button_update"
+        android:textColor="@color/background"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>
