@@ -14,6 +14,7 @@ import br.com.matheuscastiglioni.gorfeiscore.type.ColorType
 import br.com.matheuscastiglioni.gorfeiscore.validator.PlayerValidator
 import butterknife.BindView
 import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.player_adpter.view.*
 
 /**
  * Created by matheus on 26/10/17.
@@ -60,12 +61,12 @@ class PlayerAdapter(val activity : MainActivity, val context : Context, val play
 
         val position = (index + 1)
         player.position = position
-        this.tvPlayerAdapter_position.setText(player.position.toString())
+        this.tvPlayerAdapter_position.text = player.position.toString()
         checkColorIndex(player.position)
 
-        this.tvPlayerAdapter_name.setText(player.name)
+        this.tvPlayerAdapter_name.text = player.name
 
-        val score : EditText = novaView.findViewById(R.id.etPlayerAdapter_score)
+        val score : EditText = novaView.etPlayerAdapter_score
         this.btnPlayerAdapter_removeScore.setOnClickListener {
             if (PlayerValidator.validatingScore(score)) {
                 player.removeScore(score.text.toString().toInt())
@@ -88,12 +89,8 @@ class PlayerAdapter(val activity : MainActivity, val context : Context, val play
             }
         }
 
-        this.btnPlayerAdapter_removePlayer.setOnClickListener {
-            DialogHelper.confirmRemovePlayer(this.activity, this.context, this.players, player, this@PlayerAdapter)
-        }
-
+        this.btnPlayerAdapter_removePlayer.setOnClickListener { DialogHelper.confirmRemovePlayer(this.activity, this.context, this.players, player, this@PlayerAdapter) }
         this.tvPlayerAdapter_name.setOnClickListener { DialogHelper.infoPlayer(this.context, player, this@PlayerAdapter, this.activity) }
-
         return novaView!!
     }
 
@@ -105,16 +102,8 @@ class PlayerAdapter(val activity : MainActivity, val context : Context, val play
             this.tvPlayerAdapter_position.setTextColor(ColorType.ERROR.get())
     }
 
-    private fun isFirst(position : Int) : Boolean {
-        return position == POSITION_FIRST;
-    }
-
-    private fun isLast(position : Int) : Boolean {
-        return position == this.players.size;
-    }
-
-    private fun clearScore(score : EditText) {
-        score.setText(null)
-    }
+    private fun isFirst(position : Int) = position == POSITION_FIRST
+    private fun isLast(position : Int) = position == this.players.size
+    private fun clearScore(score : EditText) = score.setText(null)
 
 }

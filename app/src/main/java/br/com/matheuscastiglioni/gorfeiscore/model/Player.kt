@@ -5,16 +5,15 @@ package br.com.matheuscastiglioni.gorfeiscore.model
  */
 class Player(var name : String) {
 
-    var score : Int = 0
-    var position : Int = 0;
+    var score = 0
+    private set
+    var position = 0
 
     fun addScore(score : Int) {
         this.score += score
     }
 
-    private fun hasScore() : Boolean {
-        return this.score > 0
-    }
+    private fun hasScore() = this.score > 0
 
     fun removeScore(score : Int) {
         if (hasScore())
@@ -24,12 +23,8 @@ class Player(var name : String) {
             reset()
     }
 
-    fun reset() {
-        this.score = 0
-    }
+    fun reset() = { this.score = 0 }
 
-    private fun scoreSmallerZero() : Boolean {
-        return this.score < 0
-    }
+    private fun scoreSmallerZero() = this.score < 0
 
 }

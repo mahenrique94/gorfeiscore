@@ -10,23 +10,25 @@ abstract class PlayerValidator {
     companion object {
         fun validatingName(name : EditText) : Boolean {
             if (!hasValue(name)) {
-                name.setError("Nome obrigatório para adicionar novo jogador")
-                name.requestFocus()
+                with(name) {
+                    setError("Nome obrigatório para adicionar novo jogador")
+                    requestFocus()
+                }
             }
             return hasValue(name)
         }
 
         fun validatingScore(score : EditText) : Boolean {
             if (!hasValue(score)) {
-                score.setError("Pontuação não informada")
-                score.requestFocus()
+                with(score) {
+                    setError("Pontuação não informada")
+                    requestFocus()
+                }
             }
             return hasValue(score)
         }
 
-        private fun hasValue(name : EditText) : Boolean {
-            return name.text.toString().length > 0
-        }
+        private fun hasValue(name : EditText) = name.text.toString().length > 0
     }
 
 }

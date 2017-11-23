@@ -10,8 +10,6 @@ enum class ColorType(val color : String) {
     ERROR("#FF8080"),
     SUCCESS("#00CC99");
 
-    fun get() : Int {
-        return Color.parseColor(this.color)
-    }
+    fun get() = Color.parseColor(this.color)
 
 }

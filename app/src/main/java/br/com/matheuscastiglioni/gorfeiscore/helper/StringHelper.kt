@@ -7,9 +7,8 @@ abstract class StringHelper {
 
     companion object {
         fun capitalizeEveryWord(s : String) : String {
-            val split = s.split(" ")
-            var result : String = "";
-            split.forEach { s -> result += "${s.capitalize()} " }
+            var result : String = ""
+            s.split(" ").forEach { result += "${it.capitalize()} " }
             return result
         }
     }
