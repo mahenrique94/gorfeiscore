@@ -24,8 +24,8 @@ abstract class DialogHelper {
             with(builder) {
                 setTitle("Confirmar exclusão")
                 setMessage("Deseja remover o jogador ${player.name} ?")
-                setNegativeButton("Não") { dialogInterface, i ->  println("Não quero remover") }
-                setPositiveButton("Sim") { dialogInterface, i ->
+                setNegativeButton("Não") { dialogInterface, _ ->  }
+                setPositiveButton("Sim") { dialogInterface, _ ->
                     players.remove(player)
                     adapter.notifyDataSetChanged()
                     ViewHelper.updateMain(activity, players)

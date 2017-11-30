@@ -57,7 +57,31 @@ class PlayerAdapter(val activity : MainActivity, val context : Context, val play
         if (view == null)
             novaView = inflater.inflate(R.layout.player_adpter, viewGroup, false)
 
-        ButterKnife.bind(this, novaView!!)
+        novaView?.let {
+            ButterKnife.bind(this, it)
+            val score : EditText = it.etPlayerAdapter_score
+            this.btnPlayerAdapter_removeScore.setOnClickListener {
+                if (PlayerValidator.validatingScore(score)) {
+                    player.removeScore(score.text.toString().toInt())
+                    clearScore(score)
+                    notifyDataSetChanged()
+                    ViewHelper.hideKeyboard(this.activity)
+                    Toast.makeText(this.context, "Pontos removidos com sucesso", Toast.LENGTH_SHORT).show()
+                    score.clearFocus()
+                }
+            }
+
+            this.btnPlayerAdapter_addScore.setOnClickListener {
+                if (PlayerValidator.validatingScore(score)) {
+                    player.addScore(score.text.toString().toInt())
+                    clearScore(score)
+                    notifyDataSetChanged()
+                    ViewHelper.hideKeyboard(this.activity)
+                    Toast.makeText(this.context, "Pontos adicionados com sucesso", Toast.LENGTH_SHORT).show()
+                    score.clearFocus()
+                }
+            }
+        }
 
         val position = (index + 1)
         player.position = position
@@ -66,31 +90,8 @@ class PlayerAdapter(val activity : MainActivity, val context : Context, val play
 
         this.tvPlayerAdapter_name.text = player.name
 
-        val score : EditText = novaView.etPlayerAdapter_score
-        this.btnPlayerAdapter_removeScore.setOnClickListener {
-            if (PlayerValidator.validatingScore(score)) {
-                player.removeScore(score.text.toString().toInt())
-                clearScore(score)
-                notifyDataSetChanged()
-                ViewHelper.hideKeyboard(this.activity)
-                Toast.makeText(this.context, "Pontos removidos com sucesso", Toast.LENGTH_SHORT).show()
-                score.clearFocus()
-            }
-        }
-
-        this.btnPlayerAdapter_addScore.setOnClickListener {
-            if (PlayerValidator.validatingScore(score)) {
-                player.addScore(score.text.toString().toInt())
-                clearScore(score)
-                notifyDataSetChanged()
-                ViewHelper.hideKeyboard(this.activity)
-                Toast.makeText(this.context, "Pontos adicionados com sucesso", Toast.LENGTH_SHORT).show()
-                score.clearFocus()
-            }
-        }
-
-        this.btnPlayerAdapter_removePlayer.setOnClickListener { DialogHelper.confirmRemovePlayer(this.activity, this.context, this.players, player, this@PlayerAdapter) }
-        this.tvPlayerAdapter_name.setOnClickListener { DialogHelper.infoPlayer(this.context, player, this@PlayerAdapter, this.activity) }
+        this.btnPlayerAdapter_removePlayer.setOnClickListener { DialogHelper.confirmRemovePlayer(this.activity, this.context, this.players, player, this) }
+        this.tvPlayerAdapter_name.setOnClickListener { DialogHelper.infoPlayer(this.context, player, this, this.activity) }
         return novaView!!
     }
 

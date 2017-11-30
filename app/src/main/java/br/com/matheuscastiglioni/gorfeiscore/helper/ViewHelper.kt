@@ -19,9 +19,9 @@ abstract class ViewHelper {
     companion object {
         fun hideKeyboard(activity: Activity) {
             val view = activity.currentFocus
-            if (view != null) {
+            view.let {
                 val service : InputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                service.hideSoftInputFromWindow(view.windowToken, 0)
+                service.hideSoftInputFromWindow(it.windowToken, 0)
             }
         }
 

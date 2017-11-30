@@ -1,14 +1,8 @@
 package br.com.matheuscastiglioni.gorfeiscore
 
-import android.content.Context
-import android.inputmethodservice.InputMethodService
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import br.com.matheuscastiglioni.gorfeiscore.adapter.PlayerAdapter
 import br.com.matheuscastiglioni.gorfeiscore.helper.StringHelper
@@ -18,7 +12,6 @@ import br.com.matheuscastiglioni.gorfeiscore.validator.PlayerValidator
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import butterknife.OnItemClick
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,15 +26,17 @@ class MainActivity : AppCompatActivity() {
 
     private val LIST_LIMIT = 8
 
-    private val players : MutableList<Player>? = ArrayList<Player>()
+    private val players : MutableList<Player> = ArrayList<Player>()
     private lateinit var adapter: PlayerAdapter
+    private val listHasLimit = this.players.size == LIST_LIMIT
+    private val listHasPlayer = this.players.size > 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        adapter = PlayerAdapter(this@MainActivity, this, this.players!!)
+        adapter = PlayerAdapter(this@MainActivity, this, this.players)
 
         srMain_refresh.setOnRefreshListener { updateList() }
     }
@@ -54,36 +49,26 @@ class MainActivity : AppCompatActivity() {
 
     @OnClick(R.id.btnMain_addPlayer)
     fun addPlayer(btnMain_addPlayer : Button) {
-        if (listHasLimit()) {
+        if (this.listHasLimit) {
             Toast.makeText(this, "Limite máximo de jogadores atingido", Toast.LENGTH_LONG).show()
         } else {
             if (PlayerValidator.validatingName(this.etMain_playerName)) {
-                this.players?.add(Player(StringHelper.capitalizeEveryWord(this.etMain_playerName.text.toString())))
+                this.players.add(Player(StringHelper.capitalizeEveryWord(this.etMain_playerName.text.toString())))
                 updateList()
                 this.etMain_playerName.clearFocus()
             }
         }
 
-        ViewHelper.hideKeyboard(this@MainActivity)
+        ViewHelper.hideKeyboard(this)
     }
 
-    private fun hasName(name : EditText) : Boolean {
-        return name.text.toString().length > 0
-    }
-
-    private fun listHasLimit() : Boolean {
-        return this.players!!.size == LIST_LIMIT
-    }
-
-    private fun listHasPlayer() : Boolean {
-        return this.players!!.size > 0
-    }
+    private fun hasName(name : EditText) = name.text.toString().length > 0
 
     private fun updateList() {
-        this.players!!.sortBy { player -> player.score }
+        this.players.sortBy { player -> player.score }
         this.lvMain_lista.adapter = adapter
         this.srMain_refresh.isRefreshing = false
-        ViewHelper.updateMain(this@MainActivity, this.players)
+        ViewHelper.updateMain(this, this.players)
     }
 
 }
